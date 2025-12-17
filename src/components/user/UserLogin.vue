@@ -39,7 +39,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import type { FormInstance, FormRules } from 'element-plus'
+import { ElMessage, FormInstance, FormRules } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { loginUser } from '@/api/userController'
@@ -80,9 +80,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
         const result = res.data
 
         ElMessage.success('登录成功')
-        console.log("user",result)
+        console.log('user', result)
         userStore.setUser(result)
-
+        connectWs();
         // 判断角色
         if (userStore.isAdmin) {
           return router.push('/admin/dashboard')
@@ -97,10 +97,22 @@ const submitForm = (formEl: FormInstance | undefined) => {
   })
 }
 
-
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.resetFields()
+}
+
+const connectWs = () => {
+  const ws = new WebSocket('ws://localhost:8080/ws/notifications')
+
+  ws.onmessage = (event) => {
+    const message = JSON.parse(event.data)
+    console.log('收到消息:', message)
+    ElMessage.success(message.content)
+  }
+
+  ws.onopen = () => console.log('WebSocket 已连接')
+  ws.onclose = () => console.log('WebSocket 已关闭')
 }
 </script>
 

@@ -5,6 +5,12 @@ declare namespace API {
     data?: any
   }
 
+  type ApiResponseAuctionItem = {
+    code?: number
+    message?: string
+    data?: AuctionItem
+  }
+
   type ApiResponseBidRecord = {
     code?: number
     message?: string
@@ -23,10 +29,28 @@ declare namespace API {
     data?: BidRecord[]
   }
 
+  type ApiResponseOrderInfoVo = {
+    code?: number
+    message?: string
+    data?: OrderInfoVo
+  }
+
   type ApiResponsePageBidRecord = {
     code?: number
     message?: string
     data?: PageBidRecord
+  }
+
+  type ApiResponsePageOrderInfoVo = {
+    code?: number
+    message?: string
+    data?: PageOrderInfoVo
+  }
+
+  type ApiResponsePageUserMessage = {
+    code?: number
+    message?: string
+    data?: PageUserMessage
   }
 
   type ApiResponseUser = {
@@ -86,6 +110,27 @@ declare namespace API {
     bidTime?: string
     isWin?: number
     createTime?: string
+    updateTime?: string
+    delFlag?: number
+  }
+
+  type getInProgressAuctionItemParams = {
+    id: number
+  }
+
+  type getOrderInfoVoPageParams = {
+    records?: any[]
+    total?: number
+    size?: number
+    current?: number
+    id?: number
+    itemId?: number
+    buyerId?: number
+    sellerId?: number
+    finalPrice?: number
+    status?: number
+    createTime?: string
+    payTime?: string
     updateTime?: string
     delFlag?: number
   }
@@ -182,16 +227,43 @@ declare namespace API {
     status?: number
   }
 
-  type getUserParams = {
-    id: string
+  type getUserMessagePageParams = {
+    records?: any[]
+    total?: number
+    size?: number
+    current?: number
+    id?: number
+    userId?: number
+    type?: number
+    content?: string
+    isRead?: number
+    createTime?: string
+    updateTime?: string
+    delFlag?: number
+    title?: string
   }
 
   type IPageUser = {
     size?: number
-    records?: User[]
     current?: number
-    pages?: number
+    records?: User[]
     total?: number
+    pages?: number
+  }
+
+  type OrderInfoVo = {
+    id?: number
+    itemId?: number
+    buyerId?: number
+    sellerId?: number
+    finalPrice?: number
+    status?: number
+    createTime?: string
+    payTime?: string
+    updateTime?: string
+    delFlag?: number
+    itemName?: string
+    sellerUserName?: string
   }
 
   type OrderItem = {
@@ -211,6 +283,38 @@ declare namespace API {
     maxLimit?: number
     countId?: string
     pages?: number
+  }
+
+  type PageOrderInfoVo = {
+    records?: OrderInfoVo[]
+    total?: number
+    size?: number
+    current?: number
+    orders?: OrderItem[]
+    optimizeCountSql?: any
+    searchCount?: any
+    optimizeJoinOfCountSql?: boolean
+    maxLimit?: number
+    countId?: string
+    pages?: number
+  }
+
+  type PageUserMessage = {
+    records?: UserMessage[]
+    total?: number
+    size?: number
+    current?: number
+    orders?: OrderItem[]
+    optimizeCountSql?: any
+    searchCount?: any
+    optimizeJoinOfCountSql?: boolean
+    maxLimit?: number
+    countId?: string
+    pages?: number
+  }
+
+  type payOrderParams = {
+    orderId: number
   }
 
   type SseEmitter = {
@@ -233,5 +337,17 @@ declare namespace API {
     createTime?: string
     updateTime?: string
     delFlag?: number
+  }
+
+  type UserMessage = {
+    id?: number
+    userId?: number
+    type?: number
+    content?: string
+    isRead?: number
+    createTime?: string
+    updateTime?: string
+    delFlag?: number
+    title?: string
   }
 }

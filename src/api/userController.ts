@@ -18,16 +18,9 @@ export async function deleteUser(
 }
 
 /** 此处后端没有提供注释 GET /getUser */
-export async function getUser(
-  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.getUserParams,
-  options?: { [key: string]: any }
-) {
+export async function getUser(options?: { [key: string]: any }) {
   return request<API.ApiResponseUser>('/getUser', {
     method: 'GET',
-    params: {
-      ...params,
-    },
     ...(options || {}),
   })
 }
